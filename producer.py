@@ -15,7 +15,7 @@ def delivery_report(err,msg):
         print(f"Delivery failed: {err}")
 
     else:
-        print(f"Delivered {msg.vaule().decode("utf-8")}")    
+        print(f"Delivered {msg.value().decode("utf-8")}")     ## We are geeting bytes back so this translates it back into json
     
 
 ## This is what an event looks like . Its a Json object
@@ -26,11 +26,11 @@ order = {
     "quantity": 10
 }
 ## This code turns the Json into a strng  and then to Bytes so Kafak can read it 
-vaule = json.dumps(order).encode("utf-8")
+value = json.dumps(order).encode("utf-8")
 
 producer.produce(
         topic="orders",
-        vaule=value,
+        value=value,
         callback=delivery_report)
 
 #Good for clean code. Send Kafka order in batches if there alot. If it crashes the Flush forces them to send 
